@@ -9,7 +9,7 @@ def xor(data: bytearray, key: int) -> bytearray:
     """
 
     for i in range(len(data)):
-        data[i] = data[i] ^ key
+        data[i] ^= key
 
     return data
 
@@ -29,11 +29,12 @@ def decrypt_save(path: str) -> str:
     Decrypts a Geometry Dash save file regardless of platform
     """
     with open(path, "rb") as f:
-        save = f.read()
+        save = bytearray(f.read())
 
-    # Checking if the save is windows
+    print(save[0])
+
+    # Checking if the save is windows by comparing the first character with the `C` at the start
     if save[0] == 67:
-        save = bytearray(save)
         b64 = xor(save, 0xB)
         zipped = base64.urlsafe_b64decode(b64)
         return zlib.decompress(zipped[10:], -zlib.MAX_WBITS).decode()
