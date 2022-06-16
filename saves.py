@@ -31,8 +31,6 @@ def decrypt_save(path: str) -> str:
     with open(path, "rb") as f:
         save = bytearray(f.read())
 
-    print(save[0])
-
     # Checking if the save is windows by comparing the first character with the `C` at the start
     if save[0] == 67:
         b64 = xor(save, 0xB)
