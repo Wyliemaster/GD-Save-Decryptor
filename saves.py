@@ -3,16 +3,15 @@ import zlib
 import base64
 
 
-def xor(data: str, key: int) -> str:
+def xor(data: bytearray, key: int) -> bytearray:
     """
     Applies XOR Cipher onto data with a static key
     """
-    ret = ""
+    
+    for i in range(len(data)):
+        data[i] = data[i] ^ key
 
-    for x in data:
-        ret += chr(ord(x) ^ key)
-
-    return ret
+    return data
 
 
 def remove_pad(save: str) -> str:
@@ -39,7 +38,8 @@ def decrypt_save(path: str) -> str:
         return remove_pad(cipher.decrypt(save)).decode()
 
     else:
-        b64 = xor(save.decode(), 0xB)
+        save = bytearray(save) # Bytearrays are mutable therefore faster.
+        b64 = xor(save, 0xB)
         zipped = base64.urlsafe_b64decode(b64)
         return zlib.decompress(zipped[10:], -zlib.MAX_WBITS).decode()
 
