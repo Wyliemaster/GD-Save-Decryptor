@@ -1,4 +1,4 @@
-# GD Save Decrypter
+# GD Save Decryptor
  Python program that decrypts Geometry Dash Save files
 
 - Supports Mac, Windows, iOS and Android
